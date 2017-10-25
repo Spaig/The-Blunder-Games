@@ -1,5 +1,5 @@
 class User:
-    # team is treated as individual, will include gamemaker
+    # team is treated as individual, will include gamemaker - test!
 
     def __init__(self):
         self.penalties = 0
