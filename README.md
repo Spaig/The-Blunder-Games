@@ -3,16 +3,11 @@
 for cs361
 
 Setup: 
-
-  Create Floobits account 
+  Create Floobits account  
+  Join workspace  
+  Use browser editor  
   
-  Join workspace 
-  
-  Use browser editor 
-
-  If you want to pull/push to GitHub 
-  
-  Use Floobits (plugin) compatable IDE 
-  
-  Create or link project to both Floobits and GitHub 
+  If you want to pull/push to GitHub  
+  Use Floobits (plugin) compatable IDE  
+  Create or link project to both Floobits and GitHub  
 
