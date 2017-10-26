@@ -2,12 +2,17 @@
 # The-Blunder-Games
 for cs361
 
-Setup:
-  Create Floobits account
-  Join workspace
-  Use browser editor
+Setup: 
 
-  If you want to pull/push to GitHub
-  Use Floobits (plugin) compatable IDE
-  Create or link project to both Floobits and GitHub
+  Create Floobits account 
+  
+  Join workspace 
+  
+  Use browser editor 
+
+  If you want to pull/push to GitHub 
+  
+  Use Floobits (plugin) compatable IDE 
+  
+  Create or link project to both Floobits and GitHub 
 
