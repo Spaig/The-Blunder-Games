@@ -2,7 +2,7 @@
 # The-Blunder-Games
 for cs361
 
-Floobits Setup: 
+Floobits Setup:  
   Create Floobits account  
   Join workspace  
   Use browser editor  
