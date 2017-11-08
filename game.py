@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 import landmarks
 import time
 import system
@@ -8,61 +8,55 @@ from gameInterface import gameInterface
 
 class Game(gameInterface):
     def __init__(self, currentsystem):
-        self.clock = 0  # need to import time or some other 3rd party clock
+        ##THE ~FUTURE~ self.clock = 0  # need to import time or some other 3rd party clock
         self.isActive = False  # game is active when gamemaker calls startGame (and startClock)
         self.landmarkList = []  # ordered list of landmarks
         self.System = currentsystem  # needs to have system passed in from controller so to have access to landmarks/teams in DB
         self.teams = []  # list of user objects in game to retain stateful data of each team
-        self.User = user.User()
+
 
     # holds game landmarks, anything stored within the game
-    def addTeamToGame(self, teamName):
-        if self.User.name == "admin":
-            if teamName in System.teams == True:
-                self.teams.append(teamName)
-            else:
-                print('Team not found.')
-        else:
-            print('Must be Game Maker to add teams.')
+    def addTeamToGame(self, teamName, password):
+        usr = user.User(teamName, password)
+        self.teams.append(usr)
+
 
     def checkIfWin(self, x):
-        return x == (len(self.landmarkList) - 1)
+        return x == (len(self.landmarkList))
 
-    def getClock(self):
-        return self.clock
+    ##THE ~FUTURE~ def getClock(self):
+        ##THE ~FUTURE~ return self.clock
 
     def getLandmarkList(self):
         return self.landmarkList
 
+    def getTeams(self):
+        return self.teams
+
+
     # Sets landmarkList to a given list of landmarks passed in. Must be game maker.
     def setLandmarkList(self, landmarks):
-        if User.name == 'admin':
-            if landmarks != None:
-                self.landmarkList = landmarks
-        else:
-            print('Must be game maker to add list of landmarks')
+        if landmarks != None:
+          self.landmarkList = landmarks
 
-    # Maybe next sprint?
-    def startClock(self):
-        pass
-        # Maybe next sprint?
+    ##THE ~FUTURE~ def startClock(self):
+    ##THE ~FUTURE~     pass
 
-    def stopClock(self):
-        pass
+    ##THE ~FUTURE~ def stopClock(self):
+     ##THE ~FUTURE~    pass 
 
     def toggleActive(self):
-        if self.User.name == "admin":
-            if (self.isActive):
-                self.stopClock()
-                self.isActive = False
-            else:
-                self.startClock()
-                self.isActive = True
+        if (self.isActive):
+         ##THE ~FUTURE~  self.stopClock()
+          self.isActive = False
         else:
-            print('Must be game maker')
+        ##THE ~FUTURE~   self.startClock()
+          self.isActive = True
 
 
-class TestAddTeamstoGame(unittest.TestCase):  # Thomas
+
+
+class TestAddTeamsToGame(unittest.TestCase):  # Thomas
     def setUp(self):
         self.User = user.User()
         self.System = system.System()
@@ -106,3 +100,4 @@ class TestToggleActive(unittest.TestCase):
         self.assertFalse(self.Game.isActive, "Game starting out active")
         self.Game.toggleActive()
         self.assertTrue(self.Game.isActive, "Game is not active after call to toggleActive()")
+        

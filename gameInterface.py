@@ -1,4 +1,4 @@
-import abc
+﻿import abc
 
 
 class gameInterface(object):
@@ -16,10 +16,10 @@ class gameInterface(object):
     def setTeams(self, teams):  # add existing team to current game?
         pass
 
-    @abc.abstractmethod
-    def startClock(self):
-        pass
+    ##THE ~FUTURE~ @abc.abstractmethod
+    ##THE ~FUTURE~ def startClock(self):
+     ##THE ~FUTURE~    pass
 
-    @abc.abstractmethod
-    def stopClock(self):
-        pass
+    ##THE ~FUTURE~ @abc.abstractmethod
+    ##THE ~FUTURE~ def stopClock(self):
+    ##THE ~FUTURE~     pass

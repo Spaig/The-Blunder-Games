@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 from landmarksInterface import landmarksInterface
 
 
@@ -8,7 +8,10 @@ class Landmarks(landmarksInterface):
         self.clue = clue
         self.question = question
         self.answer = answer
-
+    
+    def getName(self):
+        return self.name
+    
     def setClue(self, clue):  # to be called by gamemaker
         self.clue = clue
 
@@ -23,6 +26,9 @@ class Landmarks(landmarksInterface):
 
     def setAnswer(self, answer):  # to be called by gamemaker
         self.answer = answer
+        
+    def getAnswer(self):
+        return self.answer
 
 
 class TestSetClue(unittest.TestCase):

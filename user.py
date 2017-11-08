@@ -1,41 +1,39 @@
-import unittest
+﻿import unittest
 from userInterface import userInterface
 import landmarks
 import system
 import game
 
+#Changing User implementation Sprint 2. Will only contain Name, pass, and currentLandmark. 
 
 class User(userInterface):
     # team is treated as individual, will include gamemaker - test!
 
-    def __init__(self):
+    def __init__(self, username, password):
         # self.penalties = 0
         # self.timePenalty = 0   WILL IMPLEMENT LATER :)
-        self.name = ""
+        self.name = username
+        self.password = password
         self.System = system.System
         self.currentLandmark = 0  # indicates position in game's landmarkList
-        self.Game = game.Game(self.System)
+       # self.Game = game.Game(self.System)
 
-    def answer_question(self, answer):
-        if self.currentLandmark != None:
-            if self.Game.landmarkList[self.currentLandmark].answer == answer:
-                print('Correct! Your next clue is: ')
+    def getName(self):
+      return self.name
+    
+    def getPassword(self):
+      return self.password
 
-                self.currentLandmark += 1
-                # TODO need to check if that was the "final" answer
-                # need to be able to print the clue
-                print(self.Game.landmarkList[self.currentLandmark].getClue())
-            else:
-                print('Incorrect answer, try again.')
-                # Eventually add penalty.
-
-                # if answer is correct: automatically provide next clue, increments currentLandmark if correct
+    
 
     def get_status(self):
-        # returns current time, location (penalties accounted for in later iteration)
+       # returns current time, location (penalties accounted for in later iteration)
+      #if gm
+      #implement gm total status sprint 2
         print("Stats for %s", self.name)
-        print("Current time: %d", self.Game.clock)  # TODO: need to fix this line
-        print("Current location: %s", self.Game.landmarkList[self.currentLandmark].name)  # Prints name of landmark
+        #print("Current time: %d", self.Game.clock)  # TODO: need to fix this line
+        print("You are on landmark %d !", self.currentLandmark)  # Prints name of landmark
+
 
 
 class TestAcceptanceQuestions(unittest.TestCase):
@@ -67,8 +65,7 @@ class TestAcceptanceUserStatus(unittest.TestCase):
         self.game.isActive = True
         self.game.clock = 5
         self.user.currentLandmark = 1
-        self.assertEquals(self.user.get_status(), "Time: 5, Landmark: 2",
-                          "User cannot access current status during game")
+        self.assertEquals(self.user.get_status(), "Time: 5, Landmark: 2", "User cannot access current status during game")
 
 
 class TestAcceptanceGMStatus(unittest.TestCase):  # TODO
@@ -83,7 +80,7 @@ class TestAcceptanceGMStatus(unittest.TestCase):  # TODO
 class TestGame(unittest.TestCase):
     def setUp(self):
         self.Game = game.Game()
-        self.user = User()
+        self.user = User("admin", "kittens")
 
     def test_game_start(self):
         pass
@@ -130,7 +127,6 @@ class TestLogin(unittest.TestCase):  # derek's tests
 '''
 
 '''
-Acceptance not needed
 class TestLoginAcceptance(unittest.TestCase):
   def setUp(self):
     self.Interface = Interface()
@@ -156,60 +152,5 @@ class TestLoginAcceptance(unittest.TestCase):
   def testEmptyLogin(self):
     self.Interface.command("login(\"\",\"\")")
     self.assertEquals(self.User.currentUser, "", "Current user should still be empty on nothing entered")
+
 '''
-
-
-class TestGMAddLandmark(unittest.TestCase):  # Chris Kirst
-    def setUp(self):
-        self.System = system.System()
-        self.User = User()
-        self.User.currentUser = "admin"
-        self.Landmark = None
-        self.System.teams = {"admin": "kittens"}
-
-    def test_AddLandMark(self):
-        self.User.createLandmark("park", "there are benches", "who is fountain dedicated to?", "St. Python")
-        self.Landmark = self.System.landmarks[0]
-        self.assertEquals(self.Landmark.name, "park", "Landmark name is not correct")
-        self.assertEquals(self.Landmark.clue, "there are benches", "Landmark question is not correct")
-        self.assertEquals(self.Landmark.question, "who is the fountain dedicated to?",
-                          "Landmark question is not correct")
-        self.assertEquals(self.Landmark.answer, "St. Python", "Landmark answer is not correct")
-        self.assertIn(self.Landmark, self.System.landmarks, "Landmark just created should be in system")
-        self.Landmark = landmarks.Landmark("Lab", "The room is on the 9th floor", "How many Macs are in the room?",
-                                           "20")
-        self.assertNotIn(self.Landmark, self.System.landmarks, "Landmark should not be in the system")
-
-    def test_AddExistingLandmark(self):
-        self.User.createLandmark("place", "clue", "question", "answer")
-        self.assertEquals(
-            self.User.createLandmark("place", "clue", "question", "answer", "Landmark already exists in System",
-                                     "Cannot add duplicate landmarks to system!"))
-
-    def test_AddBadLandmark(self):
-        self.assertEquals(self.User.createLandmark("", "", "", ""), "Invalid landmark argument(s)",
-                          "Adding blank landmark should fail")
-
-
-class TestGMCreateNewGame(unittest.TestCase):  # Chris Kirst
-    def setUp(self):
-        self.User = User()
-        self.System = system.System()
-        self.Game = game.Game()
-        self.System.teams = {"admin": "pass123", "teamA": "passwordA", "teamB": "passwordB"}
-        x = landmarks.Landmarks("park", "", "", "")
-        y = landmarks.Landmarks("lab", "", "", "")
-        z = landmarks.Landmarks("library", "", "", "")
-        self.System.landmarks = [x, y, z]
-
-    def test_CreateGame(self):
-        self.Game = self.User.createGame("park,lab,library", "teamA,teamB")
-        self.assertEquals(self.Game.controller.currentLandmarks[0].name, "park", "First landmark not correct")
-        self.assertEquals(self.Game.controller.currentLandmarks[1].name, "lab", "Second landmark not correct")
-        self.assertEquals(self.Game.controller.currentLandmarks[2].name, "library", "Third landmark not correct")
-        self.assertNotIn("union", self.Game.controller.currentLandmarks, "union should not be in current landmark list")
-        self.assertIn("teamA", self.Game.currentTeams, "teamA should be in game")
-        self.assertIn("teamB", self.Game.currentTeams, "teamB should be in game")
-        self.assertNotIn("teamC", self.Game.currentTeams, "teamC should NOT be in game")
-        self.assertEqual(self.Game.clock, 0, "Clock should not be started until Game maker initiates game")
-        self.assertFalse(self.Game.isActive, "Game should not be active until started.")

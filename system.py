@@ -1,25 +1,67 @@
+﻿import landmarks
+import unittest
+import interface
+
 class System:
     # pseudo database, way to interact with lists
     def __init__(self):
         self.landmarks = []  # [landmark objects]
-        self.teams = {"admin": "kittens"}  # gamemaker hardcoded in
+        #self.users = [User("admin","kittens")] # [user objects] - FOR SPRINT 2
+        self.teams = {'admin': "kittens"}  # gamemaker hardcoded - disabled due to user becoming an object(?)
 
-    def getLandmarks(self):
-        return self.landmarks
+    def addLandmark(self, lm):
+        self.landmarks.append(lm)
 
-    def getTeams(self):
-        return self.teams
+    def addTeam(self, tm, pw):
+      self.teams[tm] = pw
 
-    def getTeamPassword(self, username):
-        try:
-            ret = self.teams[username]
-        except KeyError:
-            print("Invalid username")
+
+    def getLandmark(self, lm):
+        ret = None
+        x = 0
+        for i in self.landmarks:
+          if self.landmarks[x].name == lm:
+            return self.landmarks[x]
+          x +=1
+        print("Invalid landmark")
         return ret
 
-    '''def addTeam(self, username, password): #need to check if User.currentUser = "admin", if not don't do anything
-      pass
-      
+        '''
+        try:
+            x = self.landmarks.index(lm)
+            ret = self.landmarks[x]
+        except ValueError:
+            print("Invalid landmark")
+        return ret
+        '''
+
+    def getTeam(self, tm):
+        ret = None
+        for key in self.teams:
+            if tm == key:
+                return key
+        print("Invalid team name")
+        return ret
+
+    def getTeamPassword(self, username):
+        ret = None
+        try:
+          ret = self.teams[username]
+        except KeyError:
+          print("Invalid username")
+        return ret
+        '''
+        USER OBJECT VERSION OF GETTEAMPASSWORD:
+        try:
+          for key in self.users:
+            if tm == self.users[key].getName():   
+                return self.users[key].getPassword
+        except KeyError:
+          print("Invalid username")
+        return ret
+        '''
+
+    '''
       
   class TestAddTeam(unittest.TestCase):
     def setUp(self):
@@ -34,20 +76,14 @@ class System:
       self.User.currentUser = "notadmin"
       self.System.addTeam("user","password")
       self.assertEquals(self.System.teams, {"admin":"kittens"}, "Non-admin user should not be able to add new teams")
+  '''
   
-  
-  DON'T NEED ACCEPTANCE YET
-  class TestAddTeamAcceptance(unittest.TestCase):
+class TestAddTeamAcceptance(unittest.TestCase):
     def setUp(self):
-      self.User = user.User()
       self.Interface = interface.Interface()
-      self.User.currentUser = "admin"
       self.System = System()
     def test_AdminAddTeam(self):
-      self.Interface.command("addTeam(\"newuser\",\"newpass\")")
-      self.assertEquals(self.System.teams, {"admin":"kittens","newuser":"newpass"}, "New user not added correctly")
-    def test_NonAdminAddTeam(self):
-      self.User.currentUser = "notadmin"
-      self.Interface.command("addTeam(\"newuser\",\"newpass\")")
-      self.assertEquals(self.System.teams, {"admin":"kittens"}, "Non-admin user should not be able to add new teams")
-  '''
+      self.Interface.command("CREATEUSER newteam passw0rd")
+      self.assertEquals(self.System.teams, {"admin":"kittens","newteam":"passw0rd"}, "New user not added correctly")
+      self.Interface.command("CREATEUSER anotherteam wow")
+      self.assertEquals(self.System.teams, {"admin":"kittens","newteam":"passw0rd","anotherteam":"wow"}, "New user not added correctly")
