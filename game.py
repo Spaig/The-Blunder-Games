@@ -5,7 +5,7 @@ import system
 import user
 from gameInterface import gameInterface
 
-
+# Testing
 class Game(gameInterface):
     def __init__(self, currentsystem):
         ##THE ~FUTURE~ self.clock = 0  # need to import time or some other 3rd party clock
