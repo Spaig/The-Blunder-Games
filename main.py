@@ -12,7 +12,7 @@ while active == True:
   else:
     i.command(ret)
   
-
+'''
 print("test game setup\n")
 i.command("login admin kittens")
 i.command("create landmark l1 c1 q1 a1")
@@ -39,4 +39,4 @@ i.command("create team t2 p2")
 i.command("login t2 p2")
 i.command("get status")
 #i.command("
-
+'''
